@@ -1,0 +1,6 @@
+              RESUME                   0
+
+              LOAD_FAST                0 (x)
+              LOAD_CONST               1 (3)
+              BINARY_OP                8 (**)
+              RETURN_VALUE
