@@ -1,8 +1,5 @@
-def gcd_extended(n1, n2):
-    if n1 == 0:
-        return (n2, 0, 1)
-    else:
-        div, x, y = gcd_extended(n2 % n1, n1)
-    return (div, y - (n2 // n1) * x, x)
-a,b = map(int, input().split())
-print(gcd_extended(a, b)[0])
+def gcd(a: int, b: int):
+    while b != 0:
+        (a, b) = (b, a - (a // b) * b)
+
+    return a
