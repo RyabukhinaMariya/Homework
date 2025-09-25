@@ -3,7 +3,7 @@
 int main(void) {
     int a, b;
     int n = 0;
-    int input = scanf("%d" "%d", &a, &b);
+    scanf("%d" "%d", &a, &b);
     while (a>=b*(n+1)) {
         n++;
     }
@@ -15,4 +15,5 @@ int main(void) {
         printf("%d", res);
     }
     return 0;
+
 } 
