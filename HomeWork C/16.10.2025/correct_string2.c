@@ -2,7 +2,7 @@
 
 int correct_string(int len, char* str, char open, char close){
     int flag;
-    flag = (str[0] != open && str[0] != close) ? 0 : str[0] == open ? 1 : -1;
+    flag = (str[0] != open && str[0] != close) ? 0 : str[0] == open ? 1 : -1; //назначаем флаг равным 1 если первый символ - '(', -1 если ')' и 0 иначе
     if (flag == -1){
         return -1;
     }
@@ -21,12 +21,18 @@ int correct_string(int len, char* str, char open, char close){
 }
 
 int main(void){
+    
     int len, flag;
+    
     printf("enter the length of the string and the string: ");
     scanf("%d ", &len);
+    
     char str[len];
+    
     scanf("%s", &str);
+    
     flag = correct_string(len, str, '(', ')') == 0 && correct_string(len, str, '[', ']') == 0 && correct_string(len, str, '{', '}') == 0;
+    
     if (flag == 1){
         printf("correct string");
     }
