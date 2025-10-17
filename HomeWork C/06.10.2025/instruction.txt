@@ -1,0 +1,2 @@
+To build the code:
+gcc -no-pie main.c sort.s -o sort_prog
