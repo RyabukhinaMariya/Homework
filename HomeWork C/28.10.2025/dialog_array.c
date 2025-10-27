@@ -31,6 +31,21 @@ void print_arr(int* arr, int size_of_arr){
     printf("\n");
 }
 
+void add(int* array, int count_of_el, int el){
+    if (count_of_el == 0){
+        array[0] = el;
+    }
+    else{
+        int i = count_of_el - 1;
+        while (i >= 0 && array[i] > el) {
+        array[i + 1] = array[i];
+        i--;
+        }
+        array[i+1] = el;
+    }
+}
+
+
 int main(){
     int count_of_el = 0, max_count = 2;
     int *array = (int*)malloc(max_count * sizeof(int));
@@ -58,7 +73,7 @@ int main(){
                     while (getchar() != '\n');
                     break;
                 }
-                array[count_of_el] = x;
+                add(array, count_of_el, x);
                 ++count_of_el;
                 break;
             case DELETE:
