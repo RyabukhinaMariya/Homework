@@ -7,7 +7,7 @@
 #define PRINT_ARRAY 3
 
 
-int* make_new_arr(int* arr, int curr_size){
+int* make_new_arr(int* arr, int curr_size){ //закончилось место - создаем массив в 2 раза больше
     int new_size = curr_size * 2;
     int* new_arr = (int*)malloc(new_size * sizeof(int));
 
@@ -31,7 +31,7 @@ void print_arr(int* arr, int size_of_arr){
     printf("\n");
 }
 
-void add(int* array, int count_of_el, int el){
+void add(int* array, int count_of_el, int el){ //добавление элемента без нарушения сортированности
     if (count_of_el == 0){
         array[0] = el;
     }
