@@ -25,7 +25,7 @@ Warrior* create_circle(int n) {
         current = current->next;
     }
     
-    current->next = first; // замыкаем круг
+    current->next = first; 
     return first;
 }
 
@@ -35,7 +35,6 @@ int result(int n, int m) {
     Warrior* current = circle;
     Warrior* prev = NULL;
     
-    // Находим последний элемент для связи
     Warrior* last = circle;
     while (last->next != circle) {
         last = last->next;
@@ -43,7 +42,6 @@ int result(int n, int m) {
     
     // Пока в круге не останется один воин
     while (current->next != current) {
-        // Находим m-го воина
         for (int count = 1; count < m; count++) {
             prev = current;
             current = current->next;
@@ -52,7 +50,6 @@ int result(int n, int m) {
         // Удаляем текущего воина
         prev->next = current->next;
         
-        // Если удаляем первого, нужно обновить circle
         if (current == circle) {
             circle = current->next;
         }
