@@ -21,7 +21,6 @@ def make_huff_tree(freq_dict):
         freq2, left = huff_tree.pop(0)
         new_el = (freq1 + freq2, [right, left])
         huff_tree.append(new_el)
-
         huff_tree.sort(key = lambda x: x[0]) #сортировка только по первому эл-ту
     return huff_tree[0][1] if huff_tree else None
 
@@ -31,7 +30,6 @@ def make_codes(tree, pref = '', codes = None):
 
     if isinstance(tree, str): #если код создан добавляем к остальным кодам
         codes[tree] = pref
-
     else:
         make_codes(tree[0], pref + '0', codes)
         make_codes(tree[1], pref + '1', codes)
