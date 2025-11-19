@@ -2,7 +2,7 @@ import pytest
 from hypothesis import strategies, given, settings, HealthCheck
 from contextlib import nullcontext
 
-from Heap_sort import heap, heap_sort
+from Heap_sort import heap_sort
 
 
 class TestSort:
@@ -44,5 +44,6 @@ class PBT:
     def test_pbt(self, arr):
         sorted_arr = heap_sort(arr)
         assert all(sorted_arr[i] - sorted_arr[i-1] > 0 for i in range(1, len(sorted_arr)))
+
 
 
