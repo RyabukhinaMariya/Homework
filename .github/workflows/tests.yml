@@ -18,7 +18,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest
+          pip install -e .
 
-      - name: Run Pytest tests
+      - name: Debug - Show directory structure
         run: |
-          pytest -v
+          find . -name "*.py" -type f | head -20
+          echo "--- Test files ---"
+          find . -name "test_*.py" -o -name "*_test.py"
+
+      - name: Run Pytest with verbose output
+        run: |
+          pytest -v --collect-only
