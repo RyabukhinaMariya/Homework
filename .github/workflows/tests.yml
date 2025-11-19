@@ -1,12 +1,42 @@
-name: Run Tests
-on: [push]
+name: Python Tests
+on: 
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-      - run: pip install pytest
-      - run: pytest
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+    
+    - name: Create setup.py if missing
+      run: |
+        if [ ! -f "setup.py" ]; then
+          cat > setup.py << 'EOF'
+from setuptools import setup, find_packages
+setup(
+    name="HomeWork_Python",
+    version="0.1.0",
+    packages=find_packages(),
+)
+EOF
+        fi
+    
+    - name: Install package
+      run: pip install -e .
+    
+    - name: Run tests
+      run: pytest tests/ -v
