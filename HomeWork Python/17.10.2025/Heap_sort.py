@@ -29,7 +29,7 @@ def heap_sort(arr):
 
 
 arr = [1, 't', 2, 7, 6, 5, 4, 15, 14, 13, 12, 11, 10, 9, 8]
-if all([type(arr[i]) == int or type(arr[i]) == float for i in range(len(arr))]):
+if all([type(arr[i]) == int or type(arr[i]) is float for i in range(len(arr))]):
     heap_sort(arr)
     print(arr)
 else:
