@@ -1,24 +1,31 @@
-name: Pytest CI
+name: Tests
 
-on: [push, pull_request]
+on: 
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
     
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v4
       with:
         python-version: "3.9"
-    
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pytest
-        pip install -e .
-    
+        # Если есть requirements.txt:
+        # pip install -r requirements.txt
+        
     - name: Run tests
       run: |
-        pytest tests/ -v
+        pytest -v
