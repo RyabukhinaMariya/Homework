@@ -9,7 +9,8 @@ int correct(OBJ* top, char* elts, int len){
             top = push(top, elts[i]);
         }
         else if (elts[i] == ')' || elts[i] == ']' || elts[i] == '}'){
-            // проверяем, что стек не пуст и закрывающие скобки подходящего типа с помощью ASKII
+            // проверяем, что стек не пуст и закрывающие скобки подходящего типа
+            if (top  == NULL) return 0;
             if (elts[i] == ')' && top->data != '(') return 0;
             else if (elts[i] == ']' && top->data != '[') return 0;
             else if (elts[i] == '}' && top->data != '{') return 0;
@@ -21,6 +22,8 @@ int correct(OBJ* top, char* elts, int len){
 
 
 int main(void){
+    printf("programm in on\n");
+    printf("puts your string there: \n");
     OBJ* top = NULL;
 
     int len = 1000;
