@@ -55,6 +55,7 @@ int main(){
     float *array = (float*)malloc(max_count * sizeof(float));
     int op;
     float x;
+    
     while (1){
         show_op();
         if (scanf("%d", &op)  != 1 || op < 0 || op > 3){
