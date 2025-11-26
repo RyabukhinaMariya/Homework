@@ -1,7 +1,9 @@
 class Graph():
     def __init__(self, graph):
-        if graph: self.graph = graph
-        else: self.graph = []
+        if graph: 
+            self.graph = graph
+        else: 
+            self.graph = []
 
     def dfs(self, start_node=0, visited=None, inter_arr=None):
         if visited is None:
