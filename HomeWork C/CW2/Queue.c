@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -102,20 +103,17 @@ Queue* dequeue(Queue* q, int* value) {
     return new_q;
 }
 
+
 int main() {
     
     Queue* q = create_queue();
 
     Queue* q1 = enqueue(q, 1);
     Queue* q2 = enqueue(q1, 2);
-    Queue* q3 = enqueue(q2, 3);
-    
-    print_queue(q3);
+    Queue* q3 = enqueue(q2, 3); 
 
     int val;
     Queue* d1 = dequeue(q3, &val);
-    printf(val);
-    print_queue(d1);
     
     return 0;
 }
