@@ -59,8 +59,8 @@ class Frozen_matrix:
     
     def __hash__(self) -> int:
         if self._hash is None:
-            data_str = str(self._data)
-            self._hash = hash(data_str)
+            arr_str = str(self._arr)
+            self._hash = hash(arr_str)
         return self._hash
 
 
