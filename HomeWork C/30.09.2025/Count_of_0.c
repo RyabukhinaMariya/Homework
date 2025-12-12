@@ -3,7 +3,7 @@
 
 int main(void){
 
-    int len, res;
+    int len, res = 0;
 
     printf("enter the lenght of your array: ");
     scanf("%d", &len);
@@ -26,5 +26,6 @@ int main(void){
     }
     
     printf("%d", res);
+
 
 }
