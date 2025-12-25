@@ -2,109 +2,148 @@
 #include <stdlib.h>
 
 #define END 0
-#define ADD 1
+#define APPEND 1
 #define DELETE 2
-#define PRINT_ARRAY 3
+#define SHOW_LIST 3
 
-void show_op(){
-    printf("--Available commands--\n 0 - Exit\n 1 - Add\n 2 - Remove\n 3 - Show array\n");
-}
+typedef struct Node{
+    float el;
+    struct Node *next;
+}Node;
 
-float* make_new_arr(float* arr, int curr_size){ //закончилось место - создаем массив в 2 раза больше
-    int new_size = curr_size * 2;
-    float* new_arr = (float*)malloc(new_size * sizeof(float));
-
-    for (int i = 0; i < curr_size; ++i){
-        new_arr[i] = arr[i];
+Node* create_node(float el){
+    Node* new_node = (Node*)malloc(sizeof(Node));
+    if (new_node == NULL){
+        printf("memory error \n");
+        return NULL;
     }
-
-    free(arr);
-
-    return new_arr;
+    new_node -> el = el;
+    new_node -> next = NULL;
+    return new_node;
 }
 
-void print_arr(float* arr, int size_of_arr){
-    if (size_of_arr == 0){
-        printf("Array is empty");
+// ordered append
+void append(Node** head, float el){
+  Node* new_node = create_node(el);
+    if (new_node == NULL) return;
+    
+    if (*head == NULL || (*head)->el >= el) {
+        new_node->next = *head;
+        *head = new_node;
         return;
     }
-    printf("Your array is: ");
-    for (int i = 0; i < size_of_arr; ++i){
-        printf("%f ", arr[i]);
+    
+    Node* current = *head;
+    while (current->next != NULL && current->next->el < el) {
+        current = current->next;
+    }
+    
+    new_node->next = current->next;
+    current->next = new_node;
+}
+
+void delete(Node** head, float value){
+    if (*head == NULL) {
+        printf("list is empty, nothing to delete.\n");
+        return;
+    }
+
+    if ((*head) -> el == value){
+        Node* temp = *head;
+        *head = (*head)->next;
+        free(temp);
+        printf("element %f is deleted\n", value);
+        return;
+    }
+
+    Node* current = *head;
+    Node* prev = NULL;
+
+    while (current != NULL && current -> el != value){
+        prev = current;
+        current = current -> next;
+    }
+
+    if (current == NULL){
+        printf("the value is missing\n");
+        return;
+    }
+
+    prev ->next = current ->next;
+    free(current);
+    printf("element %f is deleted\n", value);
+}
+
+void show_op(){
+    printf("avalible operations: \n 0 - exit \n 1 - add element \n 2 - delete last element \n 3 - show list of elements \n");
+}
+
+void print_list(Node* head){
+    Node* current = head;
+
+    if (current == NULL){
+        printf("list is empty \n");
+        return;
+    }
+
+    while (current != NULL){
+        printf("%f ", current -> el);
+        current = current -> next;
     }
     printf("\n");
 }
 
-void add(float* array, int count_of_el, float el){ //добавление элемента без нарушения сортированности
-    if (count_of_el == 0){
-        array[0] = el;
+void free_list(Node** head){
+    Node* current = *head;
+    Node* next;
+
+    while (current != NULL){
+        next = current -> next;
+        free(current);
+        current = next;
     }
-    else{
-        int i = count_of_el - 1;
-        while (i >= 0 && array[i] > el) {
-        array[i + 1] = array[i];
-        i--;
-        }
-        array[i+1] = el;
-    }
+
+    *head = NULL;
 }
 
-
 int main(){
-    int count_of_el = 0, max_count = 2;
-    float *array = (float*)malloc(max_count * sizeof(float));
+    float el, value_to_delete;
     int op;
-    float x;
-    
-    while (1){
-        show_op();
-        if (scanf("%d", &op)  != 1 || op < 0 || op > 3){
-            printf("Invalid operation\n");
-            while (getchar() != '\n');
-        }
-        switch (op){
-            case ADD:
-            printf("Enter value you want to add: ");
-                if (count_of_el >= max_count) {
-                    float *new_arr = make_new_arr(array, max_count);
-                    if (new_arr != NULL){
-                        array = new_arr;
-                        max_count *= 2;
-                    }
-                    else{
-                        printf("Cannot make new array\n");
-                        break;
-                    }
-                }
-                if (scanf("%f", &x) != 1) {
-                    printf("Invalid input\n");
-                    while (getchar() != '\n');
-                    break;
-                }
-                add(array, count_of_el, x);
-                ++count_of_el;
+    Node* head = NULL;
+
+    show_op();
+
+    while(1){
+        printf("enter operation: ");
+        scanf("%d", &op);
+
+        switch(op){
+            case APPEND:
+            printf("enter number: ");
+                scanf("%f", &el);
+                append(&head, el);
                 break;
+
             case DELETE:
-                if (count_of_el > 0){
-                    --count_of_el;
-                }
-                else{
-                    printf("Array is already empty\n");
-                }
+                printf("enter the element you want to dlete: ");
+                scanf("%f", &value_to_delete);
+                delete(&head, value_to_delete);
                 break;
-            case PRINT_ARRAY:
-                print_arr(array, count_of_el);
+
+            case SHOW_LIST:
+                printf("the list is: ");
+                print_list(head);
                 break;
+
             case END:
-                free(array);
+                free_list(&head);
                 return 0;
+                break;
+
             default:
+                printf("invalid operation\n");
                 break;
         }
-
     }
-
-    free(array);
-
     return 0;
 }
