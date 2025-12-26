@@ -1,16 +1,21 @@
-- name: Check if tests exist
-  id: check_tests
-  run: |
-    if [ -d "tests" ] || find . -name "test_*.py" -o -name "*_test.py" | grep -q .; then
-      echo "tests_exist=true" >> $GITHUB_OUTPUT
-    else
-      echo "tests_exist=false" >> $GITHUB_OUTPUT
-    fi
+name: Build and Lint
 
-- name: Run tests if they exist
-  if: steps.check_tests.outputs.tests_exist == 'true'
-  run: pytest -v
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
 
-- name: Skip tests
-  if: steps.check_tests.outputs.tests_exist == 'false'
-  run: echo "Тесты не найдены, пропускаем этап тестирования"
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y clang-format-18
+    
+    - name: Check format
+      run: |
+        find . -path ./build -prune -o -type f -name '*.[ch]' -print | xargs clang-format-18 --style=file --dry-run -Werror
