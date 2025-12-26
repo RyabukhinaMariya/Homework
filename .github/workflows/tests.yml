@@ -1,5 +1,6 @@
 name: Python Tests
-on: 
+
+on:
   push:
     branches: [main, master]
   pull_request:
@@ -8,35 +9,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
     
-    - name: Set up Python
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
-        python-version: "3.9"
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'  # Кэширование pip
     
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pytest
-    
-    - name: Create setup.py if missing
-      run: |
-        if [ ! -f "setup.py" ]; then
-          cat > setup.py << 'EOF'
-from setuptools import setup, find_packages
-setup(
-    name="HomeWork_Python",
-    version="0.1.0",
-    packages=find_packages(),
-)
-EOF
-        fi
-    
-    - name: Install package
-      run: pip install -e .
+        # Установите ваши зависимости здесь
+        # pip install numpy pandas requests
     
     - name: Run tests
-      run: pytest tests/ -v
+      run: pytest
